@@ -49,10 +49,10 @@ export default function Register() {
   };
 
   return (
-    <div className="login-wrapper">
-      <div className="login-card" style={{ maxWidth: '520px' }}>
+    <div className="register-wrapper">
+      <div className="register-card" style={{ maxWidth: '520px' }}>
         <h2>Customer Registration</h2>
-        <p className="login-subtitle">Create a new customer account to book and manage shipments</p>
+        <p className="register-subtitle">Create a new customer account to book and manage shipments</p>
 
         {error && <div className="error-alert">{error}</div>}
         {success && <div className="success-alert">{success}</div>}

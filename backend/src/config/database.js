@@ -2,12 +2,23 @@ const mysql = require('mysql2/promise');
 const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '../../.env') });
 
+const host = process.env.DB_HOST || 'localhost';
+const configuredPort = Number(process.env.DB_PORT) || 3306;
+
+// Aiven exposes MySQL on the service-specific public port.
+// If an Aiven hostname is used and DB_PORT was accidentally left at
+// the normal local MySQL port, use Aiven's actual port.
+const port =
+  host.includes('aivencloud.com') && configuredPort === 3306
+    ? 24025
+    : configuredPort;
+
 const poolConfig = {
-  host: process.env.DB_HOST || 'localhost',
+  host,
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASSWORD || '',
   database: process.env.DB_NAME || 'logistics_db',
-  port: Number(process.env.DB_PORT) || 3306,
+  port,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,

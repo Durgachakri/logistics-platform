@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const errorHandler = require('./middleware/errorHandler');
+const db = require('./config/database');
 
 const authRoutes = require('./routes/authRoutes');
 const adminRoutes = require('./routes/adminRoutes');
@@ -23,6 +24,28 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 // Health check
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
+});
+
+// Temporary database connectivity check
+app.get('/api/db-test', async (req, res) => {
+  try {
+    const [rows] = await db.query('SELECT 1 AS result');
+
+    res.json({
+      status: 'OK',
+      database: 'connected',
+      result: rows[0]
+    });
+  } catch (error) {
+    console.error('Database connection test failed:', error);
+
+    res.status(500).json({
+      status: 'ERROR',
+      database: 'connection failed',
+      message: error.message,
+      code: error.code
+    });
+  }
 });
 
 // Explicit API Route groups

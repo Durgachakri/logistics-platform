@@ -14,7 +14,6 @@
 }
 
 .footer-brand h3 { color: #fff; font-size: 1.4rem; margin-bottom: 0.6rem; }
-.footer-brand h3 span { color: var(--primary); }
 .footer-brand p { max-width: 340px; font-size: 0.9rem; }
 
 .footer-col { display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem; }
@@ -32,3 +31,6 @@
 @media (max-width: 700px) {
   .footer-inner { grid-template-columns: 1fr; }
 }
+
+.brand-accent { color: var(--primary); font-weight: 700; font-size: 1.4rem; }
+.brand-text { color: #c5d0e0; font-size: 1.1rem; }

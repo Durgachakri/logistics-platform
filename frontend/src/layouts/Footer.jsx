@@ -7,7 +7,10 @@ export default function Footer() {
     <footer className="footer" id="contact">
       <div className="footer-inner">
         <div className="footer-brand">
-          <h3>Fleet<span>Flow</span></h3>
+          <>
+          <h3><span className="brand-accent">DropyHub</span>
+          <span className="brand-text"> Logistics</span></h3>
+          </>
           <p>Reliable pickup, transit and last-mile delivery, tracked from the first scan to the signature.</p>
         </div>
 
@@ -20,14 +23,14 @@ export default function Footer() {
 
         <div className="footer-col">
           <h4>Support</h4>
-          <a href="mailto:support@fleetflow.com">support@fleetflow.com</a>
+          <a href="mailto:support@dropyhub.com">support@dropyhub.com</a>
           <a href="tel:+918005550199">+91 800 555 0199</a>
           <span>Mon to Sat, 8am to 8pm</span>
         </div>
       </div>
 
       <div className="footer-bottom">
-        &copy; {new Date().getFullYear()} FleetFlow Logistics. All rights reserved.
+        &copy; {new Date().getFullYear()} DropyHub Logistics. All rights reserved.
       </div>
     </footer>
   );

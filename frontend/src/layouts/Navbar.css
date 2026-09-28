@@ -159,3 +159,5 @@
   .nav-links { flex-direction: column; }
   .nav-user-meta { justify-content: space-between; }
 }
+
+.brand-text {color: #c5d0e0; font-size:1.1rem}

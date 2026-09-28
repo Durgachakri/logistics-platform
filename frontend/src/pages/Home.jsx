@@ -3,18 +3,36 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import './Home.css';
 
+import { FiPackage, FiTruck, FiZap, FiBriefcase } from 'react-icons/fi';
+
 const services = [
-  { icon: '📦', title: 'Parcel Delivery', text: 'Door to door for packages of any size, with pickup windows you choose.' },
-  { icon: '🚚', title: 'Road Freight', text: 'Full and partial loads moved by our own fleet and vetted carriers.' },
-  { icon: '⚡', title: 'Express & Urgent', text: 'Same-day and priority handling when the deadline can\'t move.' },
-  { icon: '🏭', title: 'Business Logistics', text: 'Recurring routes, bulk booking and reports for growing teams.' },
+  { icon: FiPackage, title: 'Parcel Delivery', text: 'Door to door for packages of any size, with pickup windows you choose.' },
+  { icon: FiTruck, title: 'Road Freight', text: 'Full and partial loads moved by our own fleet and vetted carriers.' },
+  { icon: FiZap, title: 'Express & Urgent', text: "Same-day and priority handling when the deadline can't move." },
+  { icon: FiBriefcase, title: 'Business Logistics', text: 'Recurring routes, bulk booking and reports for growing teams.' },
 ];
 
 const steps = [
-  { title: 'Book online', text: 'Enter pickup, drop-off and package details. It takes about two minutes.' },
-  { title: 'We assign a driver', text: 'Our dispatchers match your shipment to the nearest available vehicle.' },
-  { title: 'Track every stage', text: 'Follow it from pickup to out for delivery with a live status timeline.' },
-  { title: 'Proof of delivery', text: 'Get a photo or document confirming the handover, saved to your account.' },
+  {
+    icon: FiPackage,
+    title: 'Book online',
+    text: 'Enter pickup, drop-off and package details. It takes about two minutes.'
+  },
+  {
+    icon: FiTruck,
+    title: 'We assign a driver',
+    text: 'Our dispatchers match your shipment to the nearest available vehicle.'
+  },
+  {
+    icon: FiZap,
+    title: 'Track every stage',
+    text: 'Follow from pickup to out for delivery with a live status timeline.'
+  },
+  {
+    icon: FiBriefcase,
+    title: 'Proof of delivery',
+    text: 'Get a photo or document confirming the handover, saved to your account.'
+  }
 ];
 
 const stats = [
@@ -98,7 +116,7 @@ export default function Home() {
         <div className="service-grid">
           {services.map((s) => (
             <div key={s.title} className="service-card">
-              <span className="service-icon">{s.icon}</span>
+              <span className="service-icon"><s.icon /></span>
               <h3>{s.title}</h3>
               <p>{s.text}</p>
             </div>
@@ -113,9 +131,9 @@ export default function Home() {
           <p>Four steps from booking to doorstep.</p>
         </div>
         <ol className="step-grid">
-          {steps.map((s, i) => (
+          {steps.map((s) => (
             <li key={s.title} className="step">
-              <span className="step-num">{i + 1}</span>
+              <span className="step-num"><s.icon /></span>
               <h3>{s.title}</h3>
               <p>{s.text}</p>
             </li>

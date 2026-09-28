@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import './Navbar.css';
+import { FiTruck } from 'react-icons/fi';
 
 const linksByRole = {
   CUSTOMER: [
@@ -28,14 +29,11 @@ function Logo() {
   return (
     <Link to="/" className="brand-logo">
       <span className="brand-mark">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="1" y="3" width="15" height="13" rx="1" />
-          <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
-          <circle cx="5.5" cy="18.5" r="2.5" />
-          <circle cx="18.5" cy="18.5" r="2.5" />
-        </svg>
+        <FiTruck size={20} />
       </span>
-      Fleet<span className="brand-accent">Flow</span>
+      <span className="brand-accent">
+         DropyHub<span className="brand-text">  Logistics</span>
+      </span>
     </Link>
   );
 }

@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const dns = require('dns').promises;
+const net = require('net');
 const errorHandler = require('./middleware/errorHandler');
 const db = require('./config/database');
 
@@ -42,6 +44,75 @@ app.get('/api/db-test', async (req, res) => {
     res.status(500).json({
       status: 'ERROR',
       database: 'connection failed',
+      message: error.message,
+      code: error.code
+    });
+  }
+});
+
+// Temporary network diagnostic for the Aiven MySQL connection.
+app.get('/api/db-network-test', async (req, res) => {
+  const host = process.env.DB_HOST;
+  const port = Number(process.env.DB_PORT);
+
+  try {
+    const addresses = await dns.lookup(host, { all: true });
+
+    const tests = await Promise.all(
+      addresses.map(
+        ({ address, family }) =>
+          new Promise((resolve) => {
+            const socket = net.createConnection({
+              host: address,
+              port,
+              family
+            });
+
+            const startedAt = Date.now();
+
+            const finish = (result) => {
+              socket.destroy();
+              resolve({
+                address,
+                family,
+                ...result,
+                durationMs: Date.now() - startedAt
+              });
+            };
+
+            socket.setTimeout(5000);
+
+            socket.once('connect', () => {
+              finish({ status: 'CONNECTED' });
+            });
+
+            socket.once('timeout', () => {
+              finish({ status: 'TIMEOUT' });
+            });
+
+            socket.once('error', (error) => {
+              finish({
+                status: 'ERROR',
+                code: error.code,
+                message: error.message
+              });
+            });
+          })
+      )
+    );
+
+    res.json({
+      status: 'OK',
+      host,
+      port,
+      addresses,
+      tests
+    });
+  } catch (error) {
+    console.error('Database network diagnostic failed:', error);
+
+    res.status(500).json({
+      status: 'ERROR',
       message: error.message,
       code: error.code
     });

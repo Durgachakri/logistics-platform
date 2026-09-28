@@ -11,7 +11,9 @@ const customerRoutes = require('./routes/customerRoutes');
 const app = express();
 
 // Global Middleware
-app.use(cors());
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:5173'
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

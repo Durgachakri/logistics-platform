@@ -1,4 +1,8 @@
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const BASE_URL =
+  import.meta.env.VITE_API_URL ||
+  (import.meta.env.PROD
+    ? 'https://logistics-platform-tr98.vercel.app/api'
+    : 'http://localhost:5000/api');
 
 export async function apiRequest(endpoint, { method = 'GET', body, isFormData = false } = {}) {
   const token = localStorage.getItem('token');

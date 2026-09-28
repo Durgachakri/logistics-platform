@@ -53,7 +53,11 @@ app.get('/api/db-test', async (req, res) => {
 // Temporary network diagnostic for the Aiven MySQL connection.
 app.get('/api/db-network-test', async (req, res) => {
   const host = process.env.DB_HOST;
-  const port = Number(process.env.DB_PORT);
+  const configuredPort = Number(process.env.DB_PORT) || 3306;
+  const port =
+    host && host.includes('aivencloud.com') && configuredPort === 3306
+      ? 24025
+      : configuredPort;
 
   try {
     const addresses = await dns.lookup(host, { all: true });

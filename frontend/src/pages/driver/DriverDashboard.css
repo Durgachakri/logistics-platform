@@ -1,0 +1,41 @@
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.25rem;
+}
+
+.shipment-driver-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--primary);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.shipment-driver-card .card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.shipment-badge { font-weight: 800; color: var(--brand); font-size: 1.05rem; }
+
+.shipment-driver-card .card-body p {
+  margin-bottom: 0.45rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.shipment-driver-card .card-body strong { color: var(--brand); }
+
+.driver-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+  flex-wrap: wrap;
+}
+
+/* big tap targets for phones in the cab */
+.driver-actions button { flex: 1; padding: 0.75rem 1rem; }

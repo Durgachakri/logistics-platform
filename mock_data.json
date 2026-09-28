@@ -1,0 +1,365 @@
+{
+  "users": [
+    {
+      "user_id": "USR-001",
+      "name": "Alice Admin",
+      "email": "alice.admin@example.com",
+      "role": "ADMIN",
+      "status": "ACTIVE"
+    },
+    {
+      "user_id": "USR-002",
+      "name": "Bob Dispatcher",
+      "email": "bob.dispatcher@example.com",
+      "role": "DISPATCHER",
+      "status": "ACTIVE"
+    },
+    {
+      "user_id": "USR-003",
+      "name": "Charlie Driver",
+      "email": "charlie.driver@example.com",
+      "role": "DRIVER",
+      "status": "ACTIVE"
+    },
+    {
+      "user_id": "USR-004",
+      "name": "Dave Driver",
+      "email": "dave.driver@example.com",
+      "role": "DRIVER",
+      "status": "ACTIVE"
+    },
+    {
+      "user_id": "USR-005",
+      "name": "Eve Customer",
+      "email": "eve.customer@example.com",
+      "role": "CUSTOMER",
+      "status": "ACTIVE"
+    },
+    {
+      "user_id": "USR-006",
+      "name": "Frank Customer",
+      "email": "frank.customer@example.com",
+      "role": "CUSTOMER",
+      "status": "ACTIVE"
+    },
+    {
+      "user_id": "USR-007",
+      "name": "Grace Customer",
+      "email": "grace.customer@example.com",
+      "role": "CUSTOMER",
+      "status": "ACTIVE"
+    }
+  ],
+  "customers": [
+    {
+      "customer_id": "CUS-001",
+      "user_id": "USR-005",
+      "customer_number": "CUST-001",
+      "name": "Eve Customer",
+      "phone": "+1-555-0101",
+      "email": "eve.customer@example.com",
+      "address": "100 Customer Lane, NY",
+      "status": "ACTIVE",
+      "created_at": "2024-01-01T10:00:00Z"
+    },
+    {
+      "customer_id": "CUS-002",
+      "user_id": "USR-006",
+      "customer_number": "CUST-002",
+      "name": "Frank Customer",
+      "phone": "+1-555-0102",
+      "email": "frank.customer@example.com",
+      "address": "200 Consumer Road, CA",
+      "status": "ACTIVE",
+      "created_at": "2024-01-02T11:00:00Z"
+    },
+    {
+      "customer_id": "CUS-003",
+      "user_id": "USR-007",
+      "customer_number": "CUST-003",
+      "name": "Grace Customer",
+      "phone": "+1-555-0103",
+      "email": "grace.customer@example.com",
+      "address": "300 Client Blvd, TX",
+      "status": "ACTIVE",
+      "created_at": "2024-01-03T12:00:00Z"
+    }
+  ],
+  "drivers": [
+    {
+      "driver_id": "DRV-001",
+      "user_id": "USR-003",
+      "employee_number": "DRV-EMP-001",
+      "name": "Charlie Driver",
+      "phone": "+1-555-0201",
+      "license_number": "LIC-987654321",
+      "license_expiry": "2028-12-31T00:00:00Z",
+      "status": "ACTIVE",
+      "current_status": "AVAILABLE"
+    },
+    {
+      "driver_id": "DRV-002",
+      "user_id": "USR-004",
+      "employee_number": "DRV-EMP-002",
+      "name": "Dave Driver",
+      "phone": "+1-555-0202",
+      "license_number": "LIC-123456789",
+      "license_expiry": "2026-05-15T00:00:00Z",
+      "status": "ACTIVE",
+      "current_status": "ASSIGNED"
+    }
+  ],
+  "vehicles": [
+    {
+      "vehicle_id": "VEH-001",
+      "registration_number": "ABC-1234",
+      "vehicle_type": "VAN",
+      "capacity_kg": 1500,
+      "status": "ACTIVE",
+      "current_status": "AVAILABLE",
+      "driver_id": null,
+      "last_service_date": "2024-02-01T00:00:00Z"
+    },
+    {
+      "vehicle_id": "VEH-002",
+      "registration_number": "XYZ-5678",
+      "vehicle_type": "TRUCK",
+      "capacity_kg": 5000,
+      "status": "ACTIVE",
+      "current_status": "IN_TRANSIT",
+      "driver_id": "DRV-002",
+      "last_service_date": "2024-01-15T00:00:00Z"
+    },
+    {
+      "vehicle_id": "VEH-003",
+      "registration_number": "MNO-9012",
+      "vehicle_type": "MINI_TRUCK",
+      "capacity_kg": 2500,
+      "status": "ACTIVE",
+      "current_status": "MAINTENANCE",
+      "driver_id": null,
+      "last_service_date": "2023-11-20T00:00:00Z"
+    }
+  ],
+  "shipments": [
+    {
+      "shipment_id": "SHP-001",
+      "shipment_number": "SHIP-00001",
+      "customer_id": "CUS-001",
+      "pickup_address": "100 Customer Lane, NY",
+      "delivery_address": "50 Destination Ave, NY",
+      "package_description": "Electronics",
+      "package_weight_kg": 10.5,
+      "priority": "HIGH",
+      "scheduled_pickup_date": "2024-06-01T09:00:00Z",
+      "scheduled_delivery_date": "2024-06-02T17:00:00Z",
+      "status": "CREATED",
+      "created_at": "2024-05-20T10:00:00Z",
+      "updated_at": "2024-05-20T10:00:00Z"
+    },
+    {
+      "shipment_id": "SHP-002",
+      "shipment_number": "SHIP-00002",
+      "customer_id": "CUS-001",
+      "pickup_address": "100 Customer Lane, NY",
+      "delivery_address": "80 Industrial Blvd, NJ",
+      "package_description": "Office Supplies",
+      "package_weight_kg": 25.0,
+      "priority": "NORMAL",
+      "scheduled_pickup_date": "2024-06-01T10:00:00Z",
+      "scheduled_delivery_date": "2024-06-03T17:00:00Z",
+      "status": "ASSIGNED",
+      "created_at": "2024-05-21T11:00:00Z",
+      "updated_at": "2024-05-22T09:00:00Z"
+    },
+    {
+      "shipment_id": "SHP-003",
+      "shipment_number": "SHIP-00003",
+      "customer_id": "CUS-002",
+      "pickup_address": "200 Consumer Road, CA",
+      "delivery_address": "300 Tech Park, CA",
+      "package_description": "Server Equipment",
+      "package_weight_kg": 40.0,
+      "priority": "URGENT",
+      "scheduled_pickup_date": "2024-05-25T08:00:00Z",
+      "scheduled_delivery_date": "2024-05-25T18:00:00Z",
+      "status": "OUT_FOR_DELIVERY",
+      "created_at": "2024-05-23T14:00:00Z",
+      "updated_at": "2024-05-25T13:00:00Z"
+    },
+    {
+      "shipment_id": "SHP-004",
+      "shipment_number": "SHIP-00004",
+      "customer_id": "CUS-003",
+      "pickup_address": "300 Client Blvd, TX",
+      "delivery_address": "400 Retail Hub, TX",
+      "package_description": "Clothing",
+      "package_weight_kg": 15.0,
+      "priority": "NORMAL",
+      "scheduled_pickup_date": "2024-05-15T09:00:00Z",
+      "scheduled_delivery_date": "2024-05-17T17:00:00Z",
+      "status": "DELIVERED",
+      "created_at": "2024-05-10T10:00:00Z",
+      "updated_at": "2024-05-17T15:30:00Z"
+    },
+    {
+      "shipment_id": "SHP-005",
+      "shipment_number": "SHIP-00005",
+      "customer_id": "CUS-002",
+      "pickup_address": "200 Consumer Road, CA",
+      "delivery_address": "500 Residential Complex, CA",
+      "package_description": "Furniture",
+      "package_weight_kg": 120.0,
+      "priority": "NORMAL",
+      "scheduled_pickup_date": "2024-05-24T10:00:00Z",
+      "scheduled_delivery_date": "2024-05-26T17:00:00Z",
+      "status": "DELIVERY_FAILED",
+      "created_at": "2024-05-20T12:00:00Z",
+      "updated_at": "2024-05-26T16:00:00Z"
+    }
+  ],
+  "driver_assignments": [
+    {
+      "assignment_id": "ASN-001",
+      "shipment_id": "SHP-003",
+      "driver_id": "DRV-002",
+      "vehicle_id": "VEH-002",
+      "assigned_by": "USR-002",
+      "assigned_at": "2024-05-24T09:00:00Z",
+      "started_at": "2024-05-25T08:30:00Z",
+      "ended_at": null,
+      "status": "ACTIVE"
+    },
+    {
+      "assignment_id": "ASN-002",
+      "shipment_id": "SHP-004",
+      "driver_id": "DRV-001",
+      "vehicle_id": "VEH-001",
+      "assigned_by": "USR-002",
+      "assigned_at": "2024-05-14T10:00:00Z",
+      "started_at": "2024-05-15T09:15:00Z",
+      "ended_at": "2024-05-17T15:30:00Z",
+      "status": "COMPLETED"
+    }
+  ],
+  "delivery_events": [
+    {
+      "event_id": "EVT-001",
+      "shipment_id": "SHP-004",
+      "driver_id": null,
+      "event_type": "CREATED",
+      "location": "Origin",
+      "notes": "Shipment booked",
+      "created_at": "2024-05-10T10:00:00Z",
+      "idempotency_key": "idem-evt-001"
+    },
+    {
+      "event_id": "EVT-002",
+      "shipment_id": "SHP-004",
+      "driver_id": "DRV-001",
+      "event_type": "ASSIGNED",
+      "location": "Dispatch Center",
+      "notes": "Driver assigned",
+      "created_at": "2024-05-14T10:00:00Z",
+      "idempotency_key": "idem-evt-002"
+    },
+    {
+      "event_id": "EVT-003",
+      "shipment_id": "SHP-004",
+      "driver_id": "DRV-001",
+      "event_type": "PICKUP_CONFIRMED",
+      "location": "300 Client Blvd, TX",
+      "notes": "Package picked up",
+      "created_at": "2024-05-15T09:30:00Z",
+      "idempotency_key": "idem-evt-003"
+    },
+    {
+      "event_id": "EVT-004",
+      "shipment_id": "SHP-004",
+      "driver_id": "DRV-001",
+      "event_type": "IN_TRANSIT",
+      "location": "Hub TX",
+      "notes": "Arrived at transit hub",
+      "created_at": "2024-05-16T14:00:00Z",
+      "idempotency_key": "idem-evt-004"
+    },
+    {
+      "event_id": "EVT-005",
+      "shipment_id": "SHP-004",
+      "driver_id": "DRV-001",
+      "event_type": "OUT_FOR_DELIVERY",
+      "location": "Local Hub TX",
+      "notes": "Out for final delivery",
+      "created_at": "2024-05-17T09:00:00Z",
+      "idempotency_key": "idem-evt-005"
+    },
+    {
+      "event_id": "EVT-006",
+      "shipment_id": "SHP-004",
+      "driver_id": "DRV-001",
+      "event_type": "DELIVERED",
+      "location": "400 Retail Hub, TX",
+      "notes": "Delivered successfully",
+      "created_at": "2024-05-17T15:30:00Z",
+      "idempotency_key": "idem-evt-006"
+    },
+    {
+      "event_id": "EVT-007",
+      "shipment_id": "SHP-005",
+      "driver_id": "DRV-002",
+      "event_type": "OUT_FOR_DELIVERY",
+      "location": "Local Hub CA",
+      "notes": "Out for delivery",
+      "created_at": "2024-05-26T09:00:00Z",
+      "idempotency_key": "idem-evt-007"
+    },
+    {
+      "event_id": "EVT-008",
+      "shipment_id": "SHP-005",
+      "driver_id": "DRV-002",
+      "event_type": "DELIVERY_FAILED",
+      "location": "500 Residential Complex, CA",
+      "notes": "Customer not available",
+      "created_at": "2024-05-26T16:00:00Z",
+      "idempotency_key": "idem-evt-008"
+    }
+  ],
+  "proof_of_delivery": [
+    {
+      "proof_id": "PRD-001",
+      "shipment_id": "SHP-004",
+      "driver_id": "DRV-001",
+      "file_name": "signature_SHP-004.jpg",
+      "file_url": "https://example.com/proofs/SHP-004-proof.jpg",
+      "file_type": "image/jpeg",
+      "uploaded_at": "2024-05-17T15:35:00Z",
+      "status": "VERIFIED"
+    }
+  ],
+  "audit_logs": [
+    {
+      "audit_id": "AUD-001",
+      "user_id": "USR-005",
+      "action": "SHIPMENT_CREATED",
+      "entity_type": "SHIPMENT",
+      "entity_id": "SHP-001",
+      "metadata": {
+        "customer": "CUS-001"
+      },
+      "created_at": "2024-05-20T10:05:00Z"
+    },
+    {
+      "audit_id": "AUD-002",
+      "user_id": "USR-002",
+      "action": "DRIVER_ASSIGNED",
+      "entity_type": "DRIVER_ASSIGNMENT",
+      "entity_id": "ASN-001",
+      "metadata": {
+        "driver": "DRV-002",
+        "vehicle": "VEH-002",
+        "shipment": "SHP-003"
+      },
+      "created_at": "2024-05-24T09:05:00Z"
+    }
+  ]
+}

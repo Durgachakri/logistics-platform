@@ -1,0 +1,10 @@
+.profile-container {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.profile-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

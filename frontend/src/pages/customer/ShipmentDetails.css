@@ -1,0 +1,92 @@
+.timeline {
+  list-style: none;
+  margin-top: 1.25rem;
+}
+
+.timeline-item {
+  border-left: 2px solid var(--brand-light);
+  padding-left: 1rem;
+  margin-bottom: 1.25rem;
+  position: relative;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -5px;
+  top: 4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--brand-light);
+}
+
+.timeline-badge {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--brand-light);
+}
+
+.timeline-notes {
+  margin: 0.2rem 0;
+  font-size: 0.95rem;
+}
+
+.pod-section {
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+}
+
+.progress-card { margin-bottom: 1.5rem; padding: 1.75rem 1.5rem; overflow-x: auto; }
+
+.progress {
+  list-style: none;
+  display: flex;
+  min-width: 560px;
+}
+
+.progress li {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+  text-align: center;
+}
+
+/* connector line between the dots */
+.progress li + li::before {
+  content: '';
+  position: absolute;
+  top: 15px;
+  right: 50%;
+  width: 100%;
+  height: 3px;
+  background: var(--border);
+}
+
+.progress li.done + li::before,
+.progress li.current::before { background: var(--success); }
+
+.progress .dot {
+  position: relative;
+  z-index: 1;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #fff;
+  border: 2px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.progress li.done .dot { background: var(--success); border-color: var(--success); color: #fff; }
+.progress li.current .dot { background: var(--primary); border-color: var(--primary); color: #fff; box-shadow: 0 0 0 5px rgba(232, 93, 4, 0.18); }
+
+.progress .label { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
+.progress li.current .label { color: var(--brand); font-weight: 700; }

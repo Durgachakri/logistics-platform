@@ -58,7 +58,7 @@ export default function Login() {
             </svg>
           </div>
           <h1>Welcome back</h1>
-          <p>Sign in to your FleetFlow account</p>
+          <p>Sign in to your DropyHub Logistics account</p>
         </div>
 
         {/* Error Alert */}

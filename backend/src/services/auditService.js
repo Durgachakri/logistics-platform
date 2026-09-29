@@ -1,9 +1,7 @@
 const db = require('../config/database');
 const { generateId } = require('../utils/idGenerator');
 
-/**
- * Creates an audit log entry inside an existing transaction or pool connection.
- */
+
 async function logAudit(connectionOrPool, { userId, action, entityType, entityId, metadata }) {
   const auditId = generateId('AUD');
   await connectionOrPool.query(
@@ -21,9 +19,6 @@ async function logAudit(connectionOrPool, { userId, action, entityType, entityId
   return auditId;
 }
 
-/**
- * Generates operational KPIs and fleet utilization metrics.
- */
 async function getOperationalMetrics() {
   // 1. Shipment Status Distribution
   const [statusCounts] = await db.query(`
@@ -65,9 +60,7 @@ async function getOperationalMetrics() {
   };
 }
 
-/**
- * Retrieves audit logs with optional pagination and filters.
- */
+
 async function getAuditTrail({ action, entityType, limit = 50 }) {
   let query = `
     SELECT a.*, u.name AS user_name, u.email AS user_email, u.role AS user_role

@@ -29,10 +29,7 @@ const ALLOWED_TRANSITIONS = {
   CANCELLED: {}
 };
 
-/**
- * Validates whether moving from currentStatus to nextStatus is allowed for userRole.
- * Throws a formatted error with statusCode if invalid.
- */
+
 function validateTransition(currentStatus, nextStatus, userRole) {
   if (currentStatus === nextStatus) {
     return true; // No-op / Idempotent state assertion
@@ -56,9 +53,6 @@ function validateTransition(currentStatus, nextStatus, userRole) {
   return true;
 }
 
-/**
- * Checks if a shipment is in a state where a customer can cancel it.
- */
 function canCancelShipment(status) {
   return status === 'CREATED' || status === 'ASSIGNED';
 }

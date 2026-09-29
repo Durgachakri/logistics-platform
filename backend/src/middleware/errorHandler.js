@@ -1,7 +1,7 @@
 function errorHandler(err, req, res, next) {
   console.error(`[Error] ${req.method} ${req.originalUrl}:`, err);
 
-  // MySQL Duplicate Key Error
+
   if (err.code === 'ER_DUP_ENTRY') {
     return res.status(409).json({
       success: false,

@@ -14,8 +14,6 @@ const poolConfig = {
   dateStrings: true
 };
 
-// Aiven MySQL requires an encrypted TLS connection.
-// Set DB_SSL=true in Vercel for the cloud database.
 if (process.env.DB_SSL === 'true') {
   poolConfig.ssl = {
     rejectUnauthorized: false

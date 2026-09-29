@@ -106,7 +106,6 @@ async function getAllShipments(req, res, next) {
 
 const deliveryService = require('../services/deliveryService');
 
-// Add this function:
 async function reassignDelivery(req, res, next) {
   try {
     const shipmentId = req.params.id;

@@ -30,7 +30,6 @@ async function loginUser(email, password) {
     throw error;
   }
 
-  // Token payload contains primary user context
   const token = jwt.sign(
     { user_id: user.user_id, role: user.role, email: user.email },
     process.env.JWT_SECRET || 'super_secret_logistics_jwt_key_2026',

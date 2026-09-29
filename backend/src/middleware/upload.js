@@ -2,8 +2,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-// Vercel's deployed filesystem is read-only.
-// Use /tmp for temporary uploads in Vercel and local uploads during development.
+
 const uploadDir = process.env.VERCEL
   ? path.join('/tmp', 'uploads')
   : path.join(__dirname, '../../uploads');

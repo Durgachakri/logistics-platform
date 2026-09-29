@@ -14,7 +14,6 @@ export default function CustomerDashboard() {
   const [error, setError] = useState('');
   const [filter, setFilter] = useState('ALL');
 
-  // the home page tracking box sends people here as /customer?q=SHP-001
   const [params] = useSearchParams();
   const [search, setSearch] = useState(params.get('q') || '');
 

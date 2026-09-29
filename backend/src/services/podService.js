@@ -28,7 +28,6 @@ async function uploadProofOfDelivery({ shipmentId, driverId, userId, file }) {
 
     const shipment = shipments[0];
 
-    // Must be in OUT_FOR_DELIVERY or DELIVERED to attach proof
     if (shipment.status !== 'OUT_FOR_DELIVERY' && shipment.status !== 'DELIVERED') {
       const error = new Error(`Cannot upload proof for shipment in status '${shipment.status}'. Must be OUT_FOR_DELIVERY or DELIVERED.`);
       error.statusCode = 400;

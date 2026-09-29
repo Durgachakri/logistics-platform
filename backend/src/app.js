@@ -10,7 +10,7 @@ const customerRoutes = require('./routes/customerRoutes');
 
 const app = express();
 
-// Global Middleware
+
 app.use(cors({
   origin: process.env.FRONTEND_URL
 }));
@@ -20,18 +20,18 @@ app.use(express.urlencoded({ extended: true }));
 // Proof-of-delivery static uploads
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
-// Health check
+
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
-// Explicit API Route groups
+
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/driver', driverRoutes);
 app.use('/api', customerRoutes);
 
-// Centralized error handler
+
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;

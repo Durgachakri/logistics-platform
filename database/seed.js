@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 
-// Resolve packages installed in backend/node_modules
 const backendModules = path.join(__dirname, '../backend/node_modules');
 const bcrypt = require(path.join(backendModules, 'bcryptjs'));
 const mysql = require(path.join(backendModules, 'mysql2/promise'));
@@ -31,7 +30,6 @@ async function runSeed() {
 
 
 
-  // Universal test password for all mock accounts
   const defaultPasswordHash = await bcrypt.hash('Password123!', 10);
 
   console.log('Seeding users...');

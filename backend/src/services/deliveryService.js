@@ -2,9 +2,6 @@ const db = require('../config/database');
 const { generateId } = require('../utils/idGenerator');
 const { validateTransition } = require('./stateMachine');
 
-/**
- * Validates that the authenticated driver has an ACTIVE assignment for the given shipment.
- */
 async function verifyDriverAssignment(connection, shipmentId, driverId) {
   const [assignments] = await connection.query(
     `SELECT assignment_id, shipment_id, driver_id, vehicle_id, status
@@ -23,9 +20,6 @@ async function verifyDriverAssignment(connection, shipmentId, driverId) {
   return assignments[0];
 }
 
-/**
- * Updates shipment status through the driver lifecycle with idempotency and state machine validation.
- */
 async function updateShipmentStatusByDriver({
   shipmentId,
   driverId,
@@ -40,7 +34,6 @@ async function updateShipmentStatusByDriver({
   try {
     await connection.beginTransaction();
 
-    // Check if event already exists with this idempotency key
     if (idempotencyKey) {
       const [existingEvents] = await connection.query(
         `SELECT event_id, shipment_id, event_type, created_at
@@ -87,7 +80,7 @@ async function updateShipmentStatusByDriver({
 
     // 5. Handle terminal states and resource release
     if (targetStatus === 'DELIVERED') {
-      // Mark assignment as completed
+
       await connection.query(
         `UPDATE driver_assignments
          SET status = 'COMPLETED', ended_at = NOW()
@@ -95,7 +88,6 @@ async function updateShipmentStatusByDriver({
         [assignment.assignment_id]
       );
 
-      // Release driver and vehicle back to AVAILABLE
       await connection.query(
         `UPDATE drivers SET current_status = 'AVAILABLE' WHERE driver_id = ?`,
         [driverId]
@@ -112,7 +104,6 @@ async function updateShipmentStatusByDriver({
         throw error;
       }
 
-      // Mark assignment as cancelled to allow later reassignment
       await connection.query(
         `UPDATE driver_assignments
          SET status = 'CANCELLED', ended_at = NOW()
@@ -120,7 +111,6 @@ async function updateShipmentStatusByDriver({
         [assignment.assignment_id]
       );
 
-      // Release driver and vehicle back to AVAILABLE
       await connection.query(
         `UPDATE drivers SET current_status = 'AVAILABLE' WHERE driver_id = ?`,
         [driverId]
@@ -182,9 +172,6 @@ async function updateShipmentStatusByDriver({
   }
 }
 
-/**
- * Reassigns a failed or rescheduled shipment to a new driver and vehicle.
- */
 async function reassignShipment({ shipmentId, newDriverId, newVehicleId, adminUserId, userRole }) {
   const connection = await db.getConnection();
 

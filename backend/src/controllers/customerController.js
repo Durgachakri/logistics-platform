@@ -91,7 +91,7 @@ async function createShipment(req, res, next) {
       ]
     );
 
-    // Timeline event
+
     const eventId = generateId('EVT');
     await connection.query(
       `INSERT INTO delivery_events (
@@ -100,7 +100,7 @@ async function createShipment(req, res, next) {
       [eventId, shipmentId, pickup_address, `event-create-${shipmentId}`]
     );
 
-    // Audit log
+
     const auditId = generateId('AUD');
     await connection.query(
       `INSERT INTO audit_logs (audit_id, user_id, action, entity_type, entity_id, metadata)

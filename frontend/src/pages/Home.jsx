@@ -13,26 +13,10 @@ const services = [
 ];
 
 const steps = [
-  {
-    icon: FiPackage,
-    title: 'Book online',
-    text: 'Enter pickup, drop-off and package details. It takes about two minutes.'
-  },
-  {
-    icon: FiTruck,
-    title: 'We assign a driver',
-    text: 'Our dispatchers match your shipment to the nearest available vehicle.'
-  },
-  {
-    icon: FiZap,
-    title: 'Track every stage',
-    text: 'Follow from pickup to out for delivery with a live status timeline.'
-  },
-  {
-    icon: FiBriefcase,
-    title: 'Proof of delivery',
-    text: 'Get a photo or document confirming the handover, saved to your account.'
-  }
+  { title: 'Book online', text: 'Enter pickup, drop-off and package details. It takes about two minutes.' },
+  { title: 'We assign a driver', text: 'Our dispatchers match your shipment to the nearest available vehicle.' },
+  { title: 'Track every stage', text: 'Follow it from pickup to out for delivery with a live status timeline.' },
+  { title: 'Proof of delivery', text: 'Get a photo or document confirming the handover, saved to your account.' },
 ];
 
 const stats = [
@@ -47,8 +31,7 @@ export default function Home() {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  // There is no public tracking endpoint yet, so customers are sent to their
-  // dashboard (filtered by the number) and everyone else is asked to sign in.
+
   const handleTrack = (e) => {
     e.preventDefault();
     const q = trackingNo.trim();
@@ -131,9 +114,9 @@ export default function Home() {
           <p>Four steps from booking to doorstep.</p>
         </div>
         <ol className="step-grid">
-          {steps.map((s) => (
+          {steps.map((s, i) => (
             <li key={s.title} className="step">
-              <span className="step-num"><s.icon /></span>
+              <span className="step-num">{i + 1}</span>
               <h3>{s.title}</h3>
               <p>{s.text}</p>
             </li>

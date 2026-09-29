@@ -3,7 +3,7 @@ const router = express.Router();
 const customerController = require('../controllers/customerController');
 const { authenticateToken, requireRoles } = require('../middleware/auth');
 
-// Apply auth and CUSTOMER role check across all customer endpoints
+
 router.use(authenticateToken, requireRoles('CUSTOMER'));
 
 // Customer Profile

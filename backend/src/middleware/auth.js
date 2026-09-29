@@ -31,7 +31,7 @@ async function authenticateToken(req, res, next) {
     const user = users[0];
     req.user = user;
 
-    // Attach domain entity IDs for ownership checks
+
     if (user.role === 'CUSTOMER') {
       const [customers] = await db.query(
         'SELECT customer_id, customer_number, status FROM customers WHERE user_id = ?',

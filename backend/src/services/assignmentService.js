@@ -2,10 +2,7 @@ const db = require('../config/database');
 const { generateId } = require('../utils/idGenerator');
 const { validateTransition } = require('./stateMachine');
 
-/**
- * Assigns a driver and vehicle to a shipment using strict row-level locking
- * (SELECT ... FOR UPDATE) to prevent race conditions during concurrent assignments.
- */
+
 async function assignDriverAndVehicle({ shipmentId, driverId, vehicleId, assignedByUserId, userRole }) {
   const connection = await db.getConnection();
 
@@ -29,7 +26,7 @@ async function assignDriverAndVehicle({ shipmentId, driverId, vehicleId, assigne
 
     const shipment = shipments[0];
 
-    // Validate state machine rule: only CREATED or RESCHEDULED can be ASSIGNED
+
     validateTransition(shipment.status, 'ASSIGNED', userRole);
 
     // 2. Lock driver row to prevent two dispatchers assigning the same driver simultaneously
@@ -61,7 +58,6 @@ async function assignDriverAndVehicle({ shipmentId, driverId, vehicleId, assigne
       throw error;
     }
 
-    // Verify driver has no active assignment record
     const [activeDriverAssignments] = await connection.query(
       `SELECT assignment_id FROM driver_assignments
        WHERE driver_id = ? AND status = 'ACTIVE'
@@ -110,7 +106,7 @@ async function assignDriverAndVehicle({ shipmentId, driverId, vehicleId, assigne
       throw error;
     }
 
-    // Verify vehicle has no active assignment record
+
     const [activeVehicleAssignments] = await connection.query(
       `SELECT assignment_id FROM driver_assignments
        WHERE vehicle_id = ? AND status = 'ACTIVE'

@@ -3,7 +3,7 @@ const router = express.Router();
 const adminController = require('../controllers/adminController');
 const { authenticateToken, requireRoles } = require('../middleware/auth');
 
-// All admin endpoints require ADMIN or DISPATCHER role
+
 router.use(authenticateToken, requireRoles('ADMIN', 'DISPATCHER'));
 
 router.post('/assignments', adminController.createAssignment);

@@ -4,7 +4,6 @@ import { apiRequest } from '../../services/api';
 import './AdminDashboard.css';
 
 
-// small horizontal bar list, one row per status
 function Breakdown({ rows }) {
   const max = Math.max(...rows.map((r) => Number(r.count)), 1);
   return rows.map((r) => (

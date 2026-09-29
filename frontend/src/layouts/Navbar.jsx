@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import './Navbar.css';
+
 import { FiTruck } from 'react-icons/fi';
 
 const linksByRole = {
@@ -32,7 +33,7 @@ function Logo() {
         <FiTruck size={20} />
       </span>
       <span className="brand-accent">
-         DropyHub<span className="brand-text">  Logistics</span>
+        DropyHub<span className="brand-text">  Logistics</span>
       </span>
     </Link>
   );

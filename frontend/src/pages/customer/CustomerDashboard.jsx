@@ -119,12 +119,14 @@ export default function CustomerDashboard() {
           <table className="data-table">
             <thead>
               <tr>
-                <th>Shipment</th>
+                <th>Shipment #</th>
                 <th>Status</th>
-                <th>Route</th>
+                <th>Payment</th>
+                <th>Pickup Location</th>
+                <th>Delivery Address</th>
                 <th>Weight</th>
-                <th>Pickup</th>
-                <th></th>
+                <th>Scheduled Pickup</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -133,6 +135,20 @@ export default function CustomerDashboard() {
                   <td><strong>{s.shipment_number}</strong></td>
                   <td>
                     <span className={`status-pill status-${s.status}`}>{formatStatus(s.status)}</span>
+                  </td>
+                  <td>
+                    <span className="status-pill" style={{ backgroundColor: '#f1f5f9', color: '#334155', marginRight: '0.35rem' }}>
+                      {s.payment_method || 'COD'}
+                    </span>
+                    <span
+                      className="status-pill"
+                      style={{
+                        backgroundColor: s.payment_status === 'PAID' ? '#dcfce7' : '#fef3c7',
+                        color: s.payment_status === 'PAID' ? '#166534' : '#92400e'
+                      }}
+                    >
+                      {s.payment_status || 'PENDING'}
+                    </span>
                   </td>
                   <td className="route-cell">
                     <span>{s.pickup_address}</span>

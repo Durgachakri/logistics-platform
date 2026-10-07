@@ -53,7 +53,10 @@ async function updateShipmentStatusByDriver({
     }
 
     const [shipments] = await connection.query(
-      `SELECT shipment_id, status FROM shipments WHERE shipment_id = ? FOR UPDATE`,
+      `SELECT shipment_id, status, payment_method, payment_status
+       FROM shipments
+       WHERE shipment_id = ?
+       FOR UPDATE`,
       [shipmentId]
     );
 
@@ -68,12 +71,20 @@ async function updateShipmentStatusByDriver({
 
     validateTransition(shipment.status, targetStatus, 'DRIVER');
 
-    await connection.query(
-      `UPDATE shipments SET status = ?, updated_at = NOW() WHERE shipment_id = ?`,
-      [targetStatus, shipmentId]
-    );
+    let nextPaymentStatus = shipment.payment_status;
 
     if (targetStatus === 'DELIVERED') {
+      if (shipment.payment_method === 'COD') {
+        nextPaymentStatus = 'PAID';
+      }
+
+      await connection.query(
+        `UPDATE shipments
+         SET status = ?, payment_status = ?, updated_at = NOW()
+         WHERE shipment_id = ?`,
+        [targetStatus, nextPaymentStatus, shipmentId]
+      );
+
       await connection.query(
         `UPDATE driver_assignments
          SET status = 'COMPLETED', ended_at = NOW()
@@ -98,6 +109,11 @@ async function updateShipmentStatusByDriver({
       }
 
       await connection.query(
+        `UPDATE shipments SET status = ?, updated_at = NOW() WHERE shipment_id = ?`,
+        [targetStatus, shipmentId]
+      );
+
+      await connection.query(
         `UPDATE driver_assignments
          SET status = 'CANCELLED', ended_at = NOW()
          WHERE assignment_id = ?`,
@@ -113,15 +129,22 @@ async function updateShipmentStatusByDriver({
         `UPDATE vehicles SET current_status = 'AVAILABLE', driver_id = NULL, updated_at = NOW() WHERE vehicle_id = ?`,
         [assignment.vehicle_id]
       );
-    } else if (targetStatus === 'IN_TRANSIT') {
+    } else {
       await connection.query(
-        `UPDATE drivers SET current_status = 'IN_TRANSIT', updated_at = NOW() WHERE driver_id = ?`,
-        [driverId]
+        `UPDATE shipments SET status = ?, updated_at = NOW() WHERE shipment_id = ?`,
+        [targetStatus, shipmentId]
       );
-      await connection.query(
-        `UPDATE vehicles SET current_status = 'IN_TRANSIT', updated_at = NOW() WHERE vehicle_id = ?`,
-        [assignment.vehicle_id]
-      );
+
+      if (targetStatus === 'IN_TRANSIT') {
+        await connection.query(
+          `UPDATE drivers SET current_status = 'IN_TRANSIT', updated_at = NOW() WHERE driver_id = ?`,
+          [driverId]
+        );
+        await connection.query(
+          `UPDATE vehicles SET current_status = 'IN_TRANSIT', updated_at = NOW() WHERE vehicle_id = ?`,
+          [assignment.vehicle_id]
+        );
+      }
     }
 
     const eventId = generateId('EVT');
@@ -143,7 +166,11 @@ async function updateShipmentStatusByDriver({
         userId,
         targetStatus === 'DELIVERY_FAILED' ? 'DELIVERY_FAILED' : 'DELIVERY_STATUS_UPDATED',
         shipmentId,
-        JSON.stringify({ previous_status: shipment.status, new_status: targetStatus })
+        JSON.stringify({
+          previous_status: shipment.status,
+          new_status: targetStatus,
+          payment_status: nextPaymentStatus
+        })
       ]
     );
 
@@ -153,6 +180,7 @@ async function updateShipmentStatusByDriver({
       success: true,
       shipment_id: shipmentId,
       status: targetStatus,
+      payment_status: nextPaymentStatus,
       event_id: eventId
     };
   } catch (error) {

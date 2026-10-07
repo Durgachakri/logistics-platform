@@ -11,6 +11,7 @@ export default function CreateShipment() {
     package_description: '',
     package_weight_kg: '',
     priority: 'NORMAL',
+    payment_method: 'COD',
     scheduled_pickup_date: '',
     scheduled_delivery_date: ''
   });
@@ -96,6 +97,7 @@ export default function CreateShipment() {
               name="package_weight_kg"
               value={form.package_weight_kg}
               onChange={handleChange}
+              placeholder="e.g. 5.0"
             />
           </div>
 
@@ -107,6 +109,23 @@ export default function CreateShipment() {
               <option value="HIGH">High</option>
               <option value="URGENT">Urgent</option>
             </select>
+          </div>
+        </div>
+
+        <div className="form-group payment-method-section">
+          <label>Payment Method *</label>
+          <div className="cod-selector-box">
+            <label className="cod-radio-label">
+              <input
+                type="radio"
+                name="payment_method"
+                value="COD"
+                checked={form.payment_method === 'COD'}
+                onChange={handleChange}
+              />
+              <span><strong>Cash on Delivery (COD)</strong></span>
+            </label>
+            <small className="cod-hint">Pay with cash upon package receipt.</small>
           </div>
         </div>
 

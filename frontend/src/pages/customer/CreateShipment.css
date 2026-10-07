@@ -13,3 +13,34 @@
   gap: 1rem;
   margin-top: 1rem;
 }
+
+.cod-selector-box {
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.cod-radio-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: var(--text-main);
+}
+
+.cod-radio-label input {
+  accent-color: var(--primary);
+  width: 16px;
+  height: 16px;
+}
+
+.cod-hint {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  margin-left: 1.5rem;
+}

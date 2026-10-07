@@ -105,7 +105,7 @@ export default function DispatchBoard() {
               <option value="">-- Choose Shipment --</option>
               {assignableShipments.map((s) => (
                 <option key={s.shipment_id} value={s.shipment_id}>
-                  {s.shipment_number} ({s.status}) - {s.customer_name} ({s.package_weight_kg} kg)
+                  {s.shipment_number} ({s.status}) - {s.customer_name} ({s.package_weight_kg} kg) [Payment: {s.payment_method || 'COD'}]
                 </option>
               ))}
             </select>
@@ -158,6 +158,7 @@ export default function DispatchBoard() {
             <tr>
               <th>Shipment #</th>
               <th>Status</th>
+              <th>Payment</th>
               <th>Customer</th>
               <th>Driver</th>
               <th>Vehicle</th>
@@ -170,6 +171,20 @@ export default function DispatchBoard() {
               <tr key={s.shipment_id}>
                 <td><strong>{s.shipment_number}</strong></td>
                 <td><span className={`status-pill status-${s.status}`}>{s.status}</span></td>
+                <td>
+                  <span className="status-pill" style={{ backgroundColor: '#f1f5f9', color: '#334155', marginRight: '0.35rem' }}>
+                    {s.payment_method || 'COD'}
+                  </span>
+                  <span
+                    className="status-pill"
+                    style={{
+                      backgroundColor: s.payment_status === 'PAID' ? '#dcfce7' : '#fef3c7',
+                      color: s.payment_status === 'PAID' ? '#166534' : '#92400e'
+                    }}
+                  >
+                    {s.payment_status || 'PENDING'}
+                  </span>
+                </td>
                 <td>{s.customer_name}</td>
                 <td>{s.driver_name || 'Unassigned'}</td>
                 <td>{s.registration_number || 'Unassigned'}</td>

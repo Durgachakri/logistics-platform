@@ -68,7 +68,21 @@ export default function ShipmentDetails() {
       <div className="page-header">
         <div>
           <h1>Shipment #{shipment.shipment_number}</h1>
-          <span className={`status-pill status-${shipment.status}`}>{shipment.status.replace(/_/g, ' ')}</span>
+          <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.4rem' }}>
+            <span className={`status-pill status-${shipment.status}`}>{shipment.status}</span>
+            <span className="status-pill" style={{ backgroundColor: '#f1f5f9', color: '#334155' }}>
+              {shipment.payment_method || 'COD'}
+            </span>
+            <span
+              className="status-pill"
+              style={{
+                backgroundColor: shipment.payment_status === 'PAID' ? '#dcfce7' : '#fef3c7',
+                color: shipment.payment_status === 'PAID' ? '#166534' : '#92400e'
+              }}
+            >
+              {shipment.payment_status || 'PENDING'}
+            </span>
+          </div>
         </div>
         {canCancel && (
           <button onClick={handleCancel} disabled={cancelLoading} className="btn-danger">
@@ -103,6 +117,8 @@ export default function ShipmentDetails() {
           <p><strong>Priority:</strong> {shipment.priority}</p>
           <p><strong>Pickup Address:</strong> {shipment.pickup_address}</p>
           <p><strong>Delivery Address:</strong> {shipment.delivery_address}</p>
+          <p><strong>Payment Method:</strong> {shipment.payment_method || 'Cash on Delivery (COD)'}</p>
+          <p><strong>Payment Status:</strong> {shipment.payment_status || 'Pending'}</p>
           <p><strong>Scheduled Delivery:</strong> {shipment.scheduled_delivery_date || 'N/A'}</p>
         </div>
 

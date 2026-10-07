@@ -212,7 +212,10 @@ async function getAllShipments(req, res, next) {
   try {
     const { status } = req.query;
     let query = `
-      SELECT s.*, c.name AS customer_name, c.customer_number,
+      SELECT s.shipment_id, s.shipment_number, s.customer_id, s.pickup_address, s.delivery_address,
+             s.package_description, s.package_weight_kg, s.priority, s.status,
+             s.payment_method, s.payment_status, s.created_at, s.updated_at,
+             c.name AS customer_name, c.customer_number,
              da.assignment_id, da.driver_id, d.name AS driver_name,
              da.vehicle_id, v.registration_number
       FROM shipments s

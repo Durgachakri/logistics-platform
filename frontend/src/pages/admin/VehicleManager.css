@@ -1,0 +1,11 @@
+.vehicle-manager-container .filter-bar {
+  margin-bottom: 1rem;
+}
+
+.vehicle-manager-container .filter-bar input {
+  width: 100%;
+  max-width: 400px;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}

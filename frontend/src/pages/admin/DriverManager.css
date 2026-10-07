@@ -1,0 +1,20 @@
+.driver-manager-container .filter-bar {
+  margin-bottom: 1rem;
+}
+
+.driver-manager-container .filter-bar input {
+  width: 100%;
+  max-width: 400px;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.modal-form {
+  margin-top: 1rem;
+}

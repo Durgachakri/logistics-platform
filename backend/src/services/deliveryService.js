@@ -52,7 +52,6 @@ async function updateShipmentStatusByDriver({
       }
     }
 
-    // 1. Lock shipment row
     const [shipments] = await connection.query(
       `SELECT shipment_id, status FROM shipments WHERE shipment_id = ? FOR UPDATE`,
       [shipmentId]
@@ -65,22 +64,16 @@ async function updateShipmentStatusByDriver({
     }
 
     const shipment = shipments[0];
-
-    // 2. Verify driver assignment
     const assignment = await verifyDriverAssignment(connection, shipmentId, driverId);
 
-    // 3. Validate state machine rule
     validateTransition(shipment.status, targetStatus, 'DRIVER');
 
-    // 4. Update shipment status
     await connection.query(
       `UPDATE shipments SET status = ?, updated_at = NOW() WHERE shipment_id = ?`,
       [targetStatus, shipmentId]
     );
 
-    // 5. Handle terminal states and resource release
     if (targetStatus === 'DELIVERED') {
-
       await connection.query(
         `UPDATE driver_assignments
          SET status = 'COMPLETED', ended_at = NOW()
@@ -89,12 +82,12 @@ async function updateShipmentStatusByDriver({
       );
 
       await connection.query(
-        `UPDATE drivers SET current_status = 'AVAILABLE' WHERE driver_id = ?`,
+        `UPDATE drivers SET current_status = 'AVAILABLE', updated_at = NOW() WHERE driver_id = ?`,
         [driverId]
       );
 
       await connection.query(
-        `UPDATE vehicles SET current_status = 'AVAILABLE', driver_id = NULL WHERE vehicle_id = ?`,
+        `UPDATE vehicles SET current_status = 'AVAILABLE', driver_id = NULL, updated_at = NOW() WHERE vehicle_id = ?`,
         [assignment.vehicle_id]
       );
     } else if (targetStatus === 'DELIVERY_FAILED') {
@@ -112,26 +105,25 @@ async function updateShipmentStatusByDriver({
       );
 
       await connection.query(
-        `UPDATE drivers SET current_status = 'AVAILABLE' WHERE driver_id = ?`,
+        `UPDATE drivers SET current_status = 'AVAILABLE', updated_at = NOW() WHERE driver_id = ?`,
         [driverId]
       );
 
       await connection.query(
-        `UPDATE vehicles SET current_status = 'AVAILABLE', driver_id = NULL WHERE vehicle_id = ?`,
+        `UPDATE vehicles SET current_status = 'AVAILABLE', driver_id = NULL, updated_at = NOW() WHERE vehicle_id = ?`,
         [assignment.vehicle_id]
       );
     } else if (targetStatus === 'IN_TRANSIT') {
       await connection.query(
-        `UPDATE drivers SET current_status = 'IN_TRANSIT' WHERE driver_id = ?`,
+        `UPDATE drivers SET current_status = 'IN_TRANSIT', updated_at = NOW() WHERE driver_id = ?`,
         [driverId]
       );
       await connection.query(
-        `UPDATE vehicles SET current_status = 'IN_TRANSIT' WHERE vehicle_id = ?`,
+        `UPDATE vehicles SET current_status = 'IN_TRANSIT', updated_at = NOW() WHERE vehicle_id = ?`,
         [assignment.vehicle_id]
       );
     }
 
-    // 6. Record delivery timeline event
     const eventId = generateId('EVT');
     const actualIdemKey = idempotencyKey || `evt-${shipmentId}-${targetStatus}-${Date.now()}`;
 
@@ -142,11 +134,10 @@ async function updateShipmentStatusByDriver({
       [eventId, shipmentId, driverId, targetStatus, location || null, notes || null, actualIdemKey]
     );
 
-    // 7. Record audit log
     const auditId = generateId('AUD');
     await connection.query(
-      `INSERT INTO audit_logs (audit_id, user_id, action, entity_type, entity_id, metadata)
-       VALUES (?, ?, ?, 'SHIPMENT', ?, ?)`,
+      `INSERT INTO audit_logs (audit_id, user_id, action, entity_type, entity_id, metadata, created_at)
+       VALUES (?, ?, ?, 'SHIPMENT', ?, ?, NOW())`,
       [
         auditId,
         userId,
@@ -178,7 +169,6 @@ async function reassignShipment({ shipmentId, newDriverId, newVehicleId, adminUs
   try {
     await connection.beginTransaction();
 
-    // 1. Lock shipment row
     const [shipments] = await connection.query(
       `SELECT shipment_id, status FROM shipments WHERE shipment_id = ? FOR UPDATE`,
       [shipmentId]
@@ -192,14 +182,12 @@ async function reassignShipment({ shipmentId, newDriverId, newVehicleId, adminUs
 
     const shipment = shipments[0];
 
-    // Only DELIVERY_FAILED or RESCHEDULED can be reassigned
     if (shipment.status !== 'DELIVERY_FAILED' && shipment.status !== 'RESCHEDULED') {
       const error = new Error(`Cannot reassign shipment in status '${shipment.status}'. Must be DELIVERY_FAILED or RESCHEDULED.`);
       error.statusCode = 400;
       throw error;
     }
 
-    // 2. Ensure any prior active assignment is closed
     await connection.query(
       `UPDATE driver_assignments
        SET status = 'REASSIGNED', ended_at = NOW()
@@ -207,7 +195,6 @@ async function reassignShipment({ shipmentId, newDriverId, newVehicleId, adminUs
       [shipmentId]
     );
 
-    // 3. Lock new driver
     const [drivers] = await connection.query(
       `SELECT driver_id, name, status, current_status FROM drivers WHERE driver_id = ? FOR UPDATE`,
       [newDriverId]
@@ -219,7 +206,6 @@ async function reassignShipment({ shipmentId, newDriverId, newVehicleId, adminUs
       throw error;
     }
 
-    // 4. Lock new vehicle
     const [vehicles] = await connection.query(
       `SELECT vehicle_id, registration_number, status, current_status FROM vehicles WHERE vehicle_id = ? FOR UPDATE`,
       [newVehicleId]
@@ -231,7 +217,6 @@ async function reassignShipment({ shipmentId, newDriverId, newVehicleId, adminUs
       throw error;
     }
 
-    // 5. Create new assignment
     const assignmentId = generateId('ASN');
     await connection.query(
       `INSERT INTO driver_assignments (
@@ -240,24 +225,21 @@ async function reassignShipment({ shipmentId, newDriverId, newVehicleId, adminUs
       [assignmentId, shipmentId, newDriverId, newVehicleId, adminUserId]
     );
 
-    // 6. Update shipment status to ASSIGNED
     await connection.query(
       `UPDATE shipments SET status = 'ASSIGNED', updated_at = NOW() WHERE shipment_id = ?`,
       [shipmentId]
     );
 
-    // 7. Update driver & vehicle statuses
     await connection.query(
-      `UPDATE drivers SET current_status = 'ASSIGNED' WHERE driver_id = ?`,
+      `UPDATE drivers SET current_status = 'ASSIGNED', updated_at = NOW() WHERE driver_id = ?`,
       [newDriverId]
     );
 
     await connection.query(
-      `UPDATE vehicles SET current_status = 'ASSIGNED', driver_id = ? WHERE vehicle_id = ?`,
+      `UPDATE vehicles SET current_status = 'ASSIGNED', driver_id = ?, updated_at = NOW() WHERE vehicle_id = ?`,
       [newDriverId, newVehicleId]
     );
 
-    // 8. Event and Audit
     const eventId = generateId('EVT');
     await connection.query(
       `INSERT INTO delivery_events (
@@ -268,8 +250,8 @@ async function reassignShipment({ shipmentId, newDriverId, newVehicleId, adminUs
 
     const auditId = generateId('AUD');
     await connection.query(
-      `INSERT INTO audit_logs (audit_id, user_id, action, entity_type, entity_id, metadata)
-       VALUES (?, ?, 'DELIVERY_RESCHEDULED', 'DRIVER_ASSIGNMENT', ?, ?)`,
+      `INSERT INTO audit_logs (audit_id, user_id, action, entity_type, entity_id, metadata, created_at)
+       VALUES (?, ?, 'DELIVERY_RESCHEDULED', 'DRIVER_ASSIGNMENT', ?, ?, NOW())`,
       [
         auditId,
         adminUserId,

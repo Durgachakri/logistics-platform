@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { apiRequest } from '../../services/api';
 import './DispatchBoard.css';
 
-
 export default function DispatchBoard() {
   const [shipments, setShipments] = useState([]);
   const [drivers, setDrivers] = useState([]);
@@ -17,8 +16,8 @@ export default function DispatchBoard() {
     try {
       const [sRes, dRes, vRes] = await Promise.all([
         apiRequest('/admin/shipments'),
-        apiRequest('/admin/drivers'),
-        apiRequest('/admin/vehicles')
+        apiRequest('/admin/drivers?available_only=true'),
+        apiRequest('/admin/vehicles?available_only=true')
       ]);
 
       if (sRes.success) setShipments(sRes.data);
@@ -81,8 +80,10 @@ export default function DispatchBoard() {
   return (
     <div className="page-container">
       <div className="page-header">
-        <h1>Dispatch & Assignment Board</h1>
-        <p>Allocate drivers and vehicles with concurrency-safe database locking</p>
+        <div>
+          <h1>Dispatch & Assignment Board</h1>
+          <p>Allocate drivers and vehicles with concurrency-safe database locking</p>
+        </div>
       </div>
 
       {feedback.message && (
@@ -121,7 +122,7 @@ export default function DispatchBoard() {
                 <option value="">-- Choose Driver --</option>
                 {drivers.map((d) => (
                   <option key={d.driver_id} value={d.driver_id}>
-                    {d.name} ({d.current_status})
+                    {d.name} ({d.employee_number})
                   </option>
                 ))}
               </select>
@@ -137,7 +138,7 @@ export default function DispatchBoard() {
                 <option value="">-- Choose Vehicle --</option>
                 {vehicles.map((v) => (
                   <option key={v.vehicle_id} value={v.vehicle_id}>
-                    {v.registration_number} - {v.vehicle_type} ({v.current_status})
+                    {v.registration_number} - {v.vehicle_type} ({v.capacity_kg} kg)
                   </option>
                 ))}
               </select>

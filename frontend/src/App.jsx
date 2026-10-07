@@ -2,10 +2,8 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './layouts/Navbar';
-import Footer from './layouts/Footer';
 import ProtectedRoute from './layouts/ProtectedRoute';
 
-import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/customer/Register';
 import CustomerDashboard from './pages/customer/CustomerDashboard';
@@ -18,6 +16,8 @@ import DriverDashboard from './pages/driver/DriverDashboard';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import DispatchBoard from './pages/admin/DispatchBoard';
 import Reports from './pages/admin/Reports';
+import DriverManager from './pages/admin/DriverManager';
+import VehicleManager from './pages/admin/VehicleManager';
 
 export default function App() {
   return (
@@ -26,11 +26,9 @@ export default function App() {
         <Navbar />
         <main className="main-content">
           <Routes>
-            <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
 
-            {/* Customer Routes */}
             <Route
               path="/customer"
               element={
@@ -64,7 +62,6 @@ export default function App() {
               }
             />
 
-            {/* Driver Routes */}
             <Route
               path="/driver"
               element={
@@ -74,7 +71,6 @@ export default function App() {
               }
             />
 
-            {/* Admin & Dispatcher Routes */}
             <Route
               path="/admin"
               element={
@@ -100,11 +96,26 @@ export default function App() {
               }
             />
 
-            {/* Fallback */}
-            <Route path="*" element={<Navigate to="/" replace />} />
+            <Route
+              path="/admin/drivers"
+              element={
+                <ProtectedRoute allowedRoles={['ADMIN']}>
+                  <DriverManager />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/vehicles"
+              element={
+                <ProtectedRoute allowedRoles={['ADMIN']}>
+                  <VehicleManager />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route path="*" element={<Navigate to="/login" replace />} />
           </Routes>
         </main>
-        <Footer />
       </BrowserRouter>
     </AuthProvider>
   );

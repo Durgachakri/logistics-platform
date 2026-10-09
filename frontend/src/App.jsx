@@ -11,6 +11,10 @@ import CreateShipment from './pages/customer/CreateShipment';
 import ShipmentDetails from './pages/customer/ShipmentDetails';
 import CustomerProfile from './pages/customer/CustomerProfile';
 
+import Home from './pages/Home';
+import Footer from './layouts/Footer';
+
+
 import DriverDashboard from './pages/driver/DriverDashboard';
 
 import AdminDashboard from './pages/admin/AdminDashboard';
@@ -26,8 +30,10 @@ export default function App() {
         <Navbar />
         <main className="main-content">
           <Routes>
+            <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+
 
             <Route
               path="/customer"
@@ -113,9 +119,10 @@ export default function App() {
               }
             />
 
-            <Route path="*" element={<Navigate to="/login" replace />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>
+        <Footer />
       </BrowserRouter>
     </AuthProvider>
   );

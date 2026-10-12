@@ -14,11 +14,7 @@ const poolConfig = {
   dateStrings: true
 };
 
-if (process.env.DB_SSL === 'true') {
-  poolConfig.ssl = {
-    rejectUnauthorized: false
-  };
-}
+
 
 const pool = mysql.createPool(poolConfig);
 

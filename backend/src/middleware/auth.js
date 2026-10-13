@@ -13,7 +13,7 @@ async function authenticateToken(req, res, next) {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'super_secret_logistics_jwt_key_2026');
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     // Retrieve active user from database to ensure account is valid
     const [users] = await db.query(

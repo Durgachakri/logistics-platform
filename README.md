@@ -1,8 +1,8 @@
-# DropyHub Logistics
+# Shipora Logistics
 
 > A full-stack logistics and fleet management platform for shipment booking, driver assignment, delivery tracking, proof of delivery, COD payment tracking, and operational management.
 
-[![Live Application](https://img.shields.io/badge/Live%20Application-DropyHub-orange?style=for-the-badge)](https://dropyhub-logistics.vercel.app/)
+[![Live Application](https://img.shields.io/badge/Live%20Application-Shipora-orange?style=for-the-badge)](https://shipora-logistics.vercel.app/)
 [![Backend API](https://img.shields.io/badge/Backend%20API-Vercel-black?style=for-the-badge)](https://logistics-platform-tr98.vercel.app/)
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github)](https://github.com/Durgachakri/logistics-platform)
 
@@ -10,7 +10,7 @@
 
 ## Overview
 
-**DropyHub Logistics** is a full-stack logistics and fleet management application designed to manage the shipment lifecycle from customer booking and driver assignment to delivery, proof of delivery, failed deliveries, rescheduling, and COD payment tracking.
+**Shipora Logistics** is a full-stack logistics and fleet management application designed to manage the shipment lifecycle from customer booking and driver assignment to delivery, proof of delivery, failed deliveries, rescheduling, and COD payment tracking.
 
 The platform provides separate workflows for:
 
@@ -25,7 +25,7 @@ The application uses React, Node.js, Express.js, MySQL, JWT authentication, role
 
 ## Live Application
 
-**Frontend:** https://dropyhub-logistics.vercel.app/
+**Frontend:** https://shipora-logistics.vercel.app/
 
 **Backend API:** https://logistics-platform-tr98.vercel.app/
 
@@ -96,7 +96,7 @@ The application currently supports **Cash on Delivery (COD)** as the shipment pa
 
 ### Payment Flow
 
-```text
+
 Shipment Created
       ↓
 Payment Status: PENDING
@@ -104,7 +104,7 @@ Payment Status: PENDING
 Shipment Delivered
       ↓
 Payment Status: PAID
-```
+
 
 When a COD shipment is successfully delivered, the backend updates its payment status from `PENDING` to `PAID`.
 
@@ -116,12 +116,12 @@ The application uses **JWT-based authentication** and **role-based access contro
 
 Supported roles:
 
-```text
+
 CUSTOMER
 DRIVER
 DISPATCHER
 ADMIN
-```
+
 
 Protected API routes verify the authenticated user and required role before allowing access.
 
@@ -168,7 +168,7 @@ The application uses a controlled shipment state machine.
 
 ### Normal Delivery Flow
 
-```text
+
 CREATED
    ↓
 ASSIGNED
@@ -180,13 +180,13 @@ IN_TRANSIT
 OUT_FOR_DELIVERY
    ↓
 DELIVERED
-```
+
 
 ### Failed Delivery and Rescheduling
 
 If delivery fails, the shipment follows a recovery flow:
 
-```text
+
 OUT_FOR_DELIVERY
         ↓
 DELIVERY_FAILED
@@ -205,7 +205,7 @@ IN_TRANSIT
 OUT_FOR_DELIVERY
    ↓
 DELIVERED
-```
+
 
 After a failed delivery is marked as `DELIVERY_FAILED`, an Admin or Dispatcher can reschedule it. The rescheduled shipment can then be moved to `ASSIGNED` or directly to `OUT_FOR_DELIVERY`.
 
@@ -213,10 +213,10 @@ After a failed delivery is marked as `DELIVERY_FAILED`, an Admin or Dispatcher c
 
 Customers can cancel shipments while they are in:
 
-```text
+
 CREATED ──────► CANCELLED
 
 ASSIGNED ─────► CANCELLED
-```
+
 
 Once a shipment reaches `DELIVERED` or `CANCELLED`, no further delivery status transitions are allowed.

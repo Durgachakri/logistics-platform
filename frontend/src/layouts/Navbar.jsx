@@ -12,7 +12,7 @@ export default function Navbar() {
     <header className="navbar">
       <div className="nav-container">
         <Link to="/" className="brand-logo">
-          FleetFlow Logistics
+          Shipora Logistics
         </Link>
 
         <nav className="nav-links">

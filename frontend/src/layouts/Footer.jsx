@@ -9,7 +9,7 @@ export default function Footer() {
       <div className="footer-inner">
         <div className="footer-brand">
           <>
-          <h3><span className="brand-accent">DropyHub</span>
+          <h3><span className="brand-accent">Shipora</span>
           <span className="brand-text"> Logistics</span></h3>
           </>
           <p>Reliable pickup, transit and last-mile delivery, tracked from the first scan to the signature.</p>
@@ -24,14 +24,14 @@ export default function Footer() {
 
         <div className="footer-col">
           <h4>Support</h4>
-          <a href="mailto:support@dropyhub.com">support@dropyhub.com</a>
-          <a href="tel:+918005550199">+91 800 555 0199</a>
+          <a href="mailto:support@shipora.com">support@shipora.com</a>
+          <a href="tel:+918328524244">+91 8328524244</a>
           <span>Mon to Sat, 8am to 8pm</span>
         </div>
       </div>
 
       <div className="footer-bottom">
-        &copy; {new Date().getFullYear()} DropyHub Logistics. All rights reserved.
+        &copy; {new Date().getFullYear()} Shipora Logistics. All rights reserved.
       </div>
     </footer>
   );

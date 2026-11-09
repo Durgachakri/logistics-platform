@@ -58,7 +58,7 @@ export default function Login() {
             </svg>
           </div>
           <h1>Welcome back</h1>
-          <p>Sign in to your DropyHub Logistics account</p>
+          <p>Sign in to your Shipora Logistics account</p>
         </div>
 
         {/* Error Alert */}
